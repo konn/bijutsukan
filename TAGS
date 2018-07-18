@@ -1,0 +1,141 @@
+
+./Problem.hs,779
+module Problem Problem1,2
+type Grid Grid14,15
+type MGrid MGrid15,16
+solve solve17,18
+solve solve18,19
+prettyGrid prettyGrid22,23
+prettyGrid prettyGrid23,24
+problem problem36,37
+problem problem37,38
+accessible accessible55,56
+accessible accessible57,58
+type Height Height68,69
+type Width Width69,70
+type XCoord XCoord70,71
+type YCoord YCoord71,72
+procAdj procAdj73,74
+procAdj procAdj75,76
+(!@)!@86,87
+m m87,88
+zipMatrix zipMatrix89,90
+zipMatrix zipMatrix90,91
+transpose transpose92,93
+transpose transpose93,94
+emptySegments emptySegments97,98
+emptySegments emptySegments98,99
+splitOn splitOn103,104
+splitOn splitOn104,105
+comb comb110,111
+comb comb111,112
+uniqueLight uniqueLight117,118
+uniqueLight uniqueLight118,119
+
+./Setup.hs,15
+main main1,2
+
+./Main.hs,115
+module Main Main1,2
+pattern pattern8,9
+input input13,14
+input input14,15
+main main27,28
+main main28,29
+
+./Cell.hs,273
+newtype MCell MCell10,11
+newtype MCell = MCell MCell10,11
+data Cell Cell14,15
+data Cell = Empty Empty14,15
+data Cell = Empty | Light Light14,15
+data Cell = Empty | Light | Lit Lit14,15
+data Cell = Empty | Light | Lit | Wall Wall14,15
+instance instance17,18
+
+./src/Problem.hs,1538
+module Problem Problem2,3
+type Matrix Matrix18,19
+type Matrix a a18,19
+type Grid Grid19,20
+solve solve21,22
+solve solve22,23
+solve' solve'25,26
+solve' solve'26,27
+prettyGrid prettyGrid29,30
+prettyGrid prettyGrid30,31
+data Env Env43,44
+data Env = Env Env43,44
+data Env = Env { matrix matrix43,44
+               , width width44,45
+               , height height45,46
+problem problem49,50
+problem problem51,52
+problem' problem'53,54
+problem' problem'56,57
+isNumWall isNumWall66,67
+isNumWall isNumWall67,68
+isWall isWall69,70
+isWall isWall70,71
+invariantAt invariantAt72,73
+invariantAt invariantAt73,74
+initialPlacement initialPlacement82,83
+initialPlacement initialPlacement85,86
+shouldBeBright shouldBeBright89,90
+shouldBeBright shouldBeBright90,91
+cellsRelativeTo cellsRelativeTo99,100
+cellsRelativeTo cellsRelativeTo100,101
+data Direction Direction108,109
+data Direction = U U108,109
+data Direction = U | D D108,109
+data Direction = U | D | L L108,109
+data Direction = U | D | L | RR108,109
+type Height Height111,112
+type Width Width112,113
+type Col Col113,114
+type Row Row114,115
+procAdj procAdj116,117
+procAdj procAdj117,118
+(!@)!@129,130
+m m130,131
+zipMatrix zipMatrix132,133
+zipMatrix zipMatrix133,134
+at at135,136
+at at136,137
+atMaybe atMaybe138,139
+atMaybe atMaybe139,140
+clearEmpty clearEmpty144,145
+clearEmpty clearEmpty145,146
+findAnotherSolution findAnotherSolution150,151
+findAnotherSolution findAnotherSolution152,153
+
+./src/generator.hs,248
+module Main Main0,1
+main main11,12
+main main12,13
+generateGrid generateGrid14,15
+generateGrid generateGrid15,16
+randomGrid randomGrid18,19
+randomGrid randomGrid19,20
+wall wall25,26
+wall wall26,27
+cell cell28,29
+cell cell29,30
+
+./src/Main.hs,90
+module Main Main1,2
+input input7,8
+input input8,9
+main main20,21
+main main21,22
+
+./src/Cell.hs,296
+pattern pattern11,12
+newtype MCell MCell16,17
+newtype MCell = MCell MCell16,17
+data Cell Cell20,21
+data Cell = Empty Empty20,21
+data Cell = Empty | Light Light20,21
+data Cell = Empty | Light | Lit Lit20,21
+data Cell = Empty | Light | Lit | Wall Wall20,21
+instance instance23,24
