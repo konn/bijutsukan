@@ -18,12 +18,13 @@ import           Prelude              hiding (all, and, any, not, or, (&&),
 
 type Matrix a = Vector (Vector a)
 type Grid     = Matrix Cell
+type MGrid    = Matrix MCell
 
-solve :: MonadIO f => Grid -> f (Result, Maybe Grid)
+solve :: (MonadPlus f, MonadIO m) => Grid -> m (Result, f Grid)
 solve grid =
   second (fmap $ V.fromList . map V.fromList) <$> solveWith minisat (problem grid)
 
-solve' :: MonadIO f => Bool -> Grid -> f (Result, Maybe Grid)
+solve' :: (MonadPlus f, MonadIO m) => Bool -> Grid -> m (Result, f Grid)
 solve' b grid =
   second (fmap $ V.fromList . map V.fromList) <$> solveWith minisat (problem' b grid)
 
@@ -74,11 +75,32 @@ invariantAt :: MonadReader Env m => Bool -> (Row, Col) -> m Bit
 invariantAt generationMode pos = do
   (cell, var) <- at pos
   adjCond <- procAdj pos
-  brightness <- shouldBeBright pos var
+  brightness <-
+    if generationMode
+    then (not (isWall var) ==>) <$> shouldBeBright pos var
+    else case cell of
+      Empty -> do
+        mcs <- accessible pos
+        return $
+           var === encode Lit   && any (=== encode Light) mcs ||
+           var === encode Light && all (=== encode Lit) mcs
+      _     -> return true
   return $ and [ isNumWall var ==> adjCond
                , initialPlacement generationMode cell var
-               , not (isWall var) ==> brightness
+               , brightness
                ]
+
+accessible :: MonadReader Env m => (Row, Col) -> m [MCell]
+accessible (i, j) = do
+  Env mat w h <- ask
+  let getIt k = foldMap (map snd . filter ((/= k) . fst) . V.toList) .
+                filter (any $ (== k) . fst) . emptySegments
+
+      r = getIt j $
+          V.imap (\k (a, b) -> (a, (k, b))) $ mat V.! i
+      c = getIt i $
+          V.imap (\k (a, b) -> (a, (k, b))) $ transpose w h mat V.! j
+  return $ r ++ c
 
 initialPlacement :: Bool        -- Allow new walls?
                  -> Cell
@@ -159,6 +181,26 @@ findAnotherSolution gr = do
   assert $ or noLights
   return vs
 
+transpose :: Width -> Height -> Vector (Vector a) -> Vector (Vector a)
+transpose w h m =
+  V.generate w $ \j -> V.generate h $ \ i ->
+  m V.! i V.! j
+
+emptySegments :: Vector (Cell, a) -> [Vector a]
+emptySegments vc =
+  map (V.map snd) $
+  filter (not . V.null) $
+  splitOn ((`notElem` [Empty, Light]) . fst) vc
+
+splitOn :: (a -> Bool) -> Vector a -> [Vector a]
+splitOn p vs =
+  let (ls, rs) = V.break p vs
+  in if V.null rs
+  then if V.null ls then [] else [ls]
+  else ls : splitOn p (V.tail rs)
+
+uniqueLight :: [MCell] -> Bit
+uniqueLight = exactly 1 . map (=== encode Light)
 
 {-# ANN module "HLint: ignore Use ||" #-}
 {-# ANN module "HLint: ignore Use &&" #-}
