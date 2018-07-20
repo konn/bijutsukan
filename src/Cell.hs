@@ -1,12 +1,18 @@
 {-# LANGUAGE DeriveAnyClass, DeriveDataTypeable, DeriveGeneric #-}
 {-# LANGUAGE DerivingStrategies, FlexibleInstances, MultiWayIf #-}
-{-# LANGUAGE TypeFamilies                                      #-}
+{-# LANGUAGE PatternSynonyms, TypeFamilies                     #-}
 module Cell where
 import Control.Applicative (empty)
 import Data.Typeable       (Typeable)
 import Data.Word
 import Ersatz
 import GHC.Generics        (Generic)
+
+pattern W :: Cell
+pattern W = Wall Nothing
+
+pattern E :: Cell
+pattern E = Empty
 
 newtype MCell = MCell Bit4
           deriving (Show, Typeable, Generic,
