@@ -1,0 +1,24 @@
+name: bijutsukan
+version: '0.1.0.0'
+category: Web
+author: Hiromi ISHII
+maintainer: konn.jinro _at_ gmail.com
+copyright: 2018 (c) Hiromi ISHII
+license: BSD3
+homepage: https://github.com/konn/bijutsukan#readme
+extra-source-files:
+- README.md
+dependencies:
+- base >=4.7 && <5
+- ersatz
+- vector
+- mtl
+- transformers
+- random-fu
+- monad-loops
+- random-source
+executables:
+  bijutsukan:
+    main: Main.hs
+    source-dirs: src
+    ghc-options: -Wall
